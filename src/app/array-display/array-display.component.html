@@ -1,15 +1,35 @@
 <!-- array-display.component.html -->
 <div>
-    <h2>Array Display</h2>
-    <input type="range"/>
-    <div class="sort-button" (click)="sort()" [style.ba]="">Sort</div>
-    <div class="regenerate-button"
+  <h2>Array Display</h2>
+
+  <input type="range" />
+
+  <div class="sort-button" (click)="selectionSort()">Selection Sort</div>
+  <div class="sort-button" (click)="sort()">Sort</div>
+
+  <div
+    class="regenerate-button"
     [class.disable]="isSorting"
-    (click)="generateArray()">Regenerate</div>
-    <div class="bar-container">
-      <div *ngFor="let item of myArray let i = index;"
-      class="bar" 
-      [style.background-color] = "(isSwapping === i || isSwapping === i-1) ? 'red': (isComparing === i || isComparing === i-1) ? 'green': (isSorted != null && isSorted <= i) ? 'purple': 'blue'"
-      [style.height.px]="item">{{ item }}</div>
+    (click)="generateArray()"
+  >
+    Regenerate
+  </div>
+  <div class="bar-container">
+    <div
+      *ngFor="let item of myArray; let i = index"
+      class="bar"
+      [style.background-color]="
+        isSwapping === i || isSwapping === i - 1
+          ? 'red'
+          : isComparing === i || isComparing === i - 1
+          ? 'green'
+          : isSorted != null && isSorted <= i
+          ? 'purple'
+          : 'blue'
+      "
+      [style.height.px]="item"
+    >
+      {{ item }}
     </div>
   </div>
+</div>

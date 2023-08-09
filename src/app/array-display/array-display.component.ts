@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
+
+import { SelectionSortService } from './../services/selection-sort.service';
 import { ArrayGeneratorService } from '../services/array-generator.service';
 import { BubbleSortService } from '../services/bubble-sort.service';
 
 @Component({
   selector: 'app-array-display',
   templateUrl: './array-display.component.html',
-  styleUrls: ['./array-display.component.css']
+  styleUrls: ['./array-display.component.css'],
 })
-
-
 export class ArrayDisplayComponent {
   public myArray: number[] = [];
   isComparing: number | null = null;
@@ -17,10 +17,31 @@ export class ArrayDisplayComponent {
   isSorting = false;
   public size = 10;
 
-  constructor(private randomArrayGenerator: ArrayGeneratorService, private bubbleSortService: BubbleSortService){
-    bubbleSortService.isComparingEvent.subscribe((index) => {this.isComparing = index});
-    bubbleSortService.isSwappingEvent.subscribe((index) => {this.isSwapping = index});
-    bubbleSortService.isSortedEvent.subscribe((index) => {this.isSorted = index});
+  constructor(
+    private randomArrayGenerator: ArrayGeneratorService,
+    private bubbleSortService: BubbleSortService,
+    private selectionSortService: SelectionSortService
+  ) {
+    bubbleSortService.isComparingEvent.subscribe((index) => {
+      this.isComparing = index;
+    });
+    bubbleSortService.isSwappingEvent.subscribe((index) => {
+      this.isSwapping = index;
+    });
+    bubbleSortService.isSortedEvent.subscribe((index) => {
+      this.isSorted = index;
+    });
+
+    selectionSortService.isComparingEvent.subscribe((index) => {
+      this.isComparing = index;
+    });
+    selectionSortService.isSwappingEvent.subscribe((index) => {
+      this.isSwapping = index;
+    });
+    selectionSortService.isSortedEvent.subscribe((index) => {
+      this.isSorted = index;
+    });
+
     this.generateArray();
   }
 
@@ -32,5 +53,10 @@ export class ArrayDisplayComponent {
   public sort(): void {
     this.isSorted = null;
     this.bubbleSortService.sort(this.myArray);
+  }
+
+  public selectionSort(): void {
+    this.isSorted = null;
+    this.selectionSortService.sort(this.myArray);
   }
 }
