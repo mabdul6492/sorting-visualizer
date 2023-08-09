@@ -1,7 +1,6 @@
 
 
 .bar {
-    background-color: blue;
     margin: 1px;
     padding: 1px;
     color: white;
@@ -17,6 +16,11 @@
 
 .regenerate-button {
     cursor: pointer;
+    user-select: none;
+}
+
+.disable {
+    pointer-events: none;
 }
 
 .sort-button {

@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BubbleSortService {
+  isComparingEvent = new EventEmitter();
+  isSwappingEvent = new EventEmitter();
+  isSortedEvent = new EventEmitter();
 
   constructor() { }
 
@@ -15,17 +18,29 @@ export class BubbleSortService {
       swapped = false;
 
       for(let j = 0; j < n-i-1; j++){
+        this.isComparingEvent.emit(j);
+        await this.delay(50);
+        
         if(array[j] > array[j+1]){
+          this.isSwappingEvent.emit(j);
+          await this.delay(50);
+          
           const temp = array[j];
           array[j] = array[j+1];
           array[j+1] = temp;
           swapped = true;
+          
+          await this.delay(50);
+          this.isSwappingEvent.emit(null);
         }
-
-        await this.delay(50);
+        this.isComparingEvent.emit(null);
       }
-
-      if(!swapped) break;
+      this.isSortedEvent.emit(n-i-1);
+      
+      if(!swapped){
+        this.isSortedEvent.emit(0);
+        break;
+      }
     }
   }
 

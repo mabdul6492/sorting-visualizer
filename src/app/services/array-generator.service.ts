@@ -16,6 +16,7 @@ export class ArrayGeneratorService {
       this.randomArray.push(randomNumber);
     }
   }
+  
   private getRandomNumber() {
     return (Math.floor(Math.random() * 200) + 10);
   }
