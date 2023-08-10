@@ -1,40 +1,48 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { ArrayWithColor } from '../interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SelectionSortService {
-  isComparingEvent = new EventEmitter();
-  isSwappingEvent = new EventEmitter();
-  isSortedEvent = new EventEmitter();
+  
   constructor() {}
 
-  async sort(arr: number[]): Promise<void> {
-    const n = arr.length;
+  async sort(array: ArrayWithColor[], speed: number): Promise<void> {
+    const n = array.length;
+    speed = 1001-speed;
 
     for (let i = 0; i < n - 1; i++) {
       let minIndex = i;
 
       for (let j = i + 1; j < n; j++) {
-        if (arr[j] < arr[minIndex]) {
+        array[j].color = "green";
+        array[minIndex].color = "green";
+        await this.delay(speed);
+
+        array[j].color = "blue";
+        array[minIndex].color = "blue";
+        if (array[j].value < array[minIndex].value) {
           minIndex = j;
         }
       }
-      this.isComparingEvent.emit(minIndex);
-      await this.delay(2000);
-      if (minIndex !== i) {
-        await this.delay(2000);
-        this.isSwappingEvent.emit(minIndex);
-        const temp = arr[i];
-        arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
+      
+      if (minIndex != i) {
+        array[i].color = "red";
+        array[minIndex].color = "red";
+        await this.delay(speed);
+
+        const temp = array[i].value;
+        array[i].value = array[minIndex].value;
+        array[minIndex].value = temp;
+        await this.delay(speed);
       }
-      this.isComparingEvent.emit(null);
-      this.isSortedEvent.emit(n - i);
+
+      array[minIndex].color = "blue";
+      array[i].color = "purple";
+      await this.delay(speed);
     }
-    this.isSwappingEvent.emit(null);
-    this.isSortedEvent.emit(0);
-    await this.delay(2000);
+    array[n-1].color = "purple";
   }
 
   private delay(ms: number): Promise<void> {

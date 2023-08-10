@@ -14,15 +14,13 @@
     display: flex;
 }
 
-.regenerate-button {
-    cursor: pointer;
-    user-select: none;
-}
-
 .disable {
     pointer-events: none;
+    color: red;
+
 }
 
-.sort-button {
+.div-button {
     cursor: pointer;
+    user-select: none;
 }

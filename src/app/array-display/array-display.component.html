@@ -2,34 +2,27 @@
 <div>
   <h2>Array Display</h2>
 
-  <input type="range" />
+  <input type="range" [(ngModel)]="speed" min="50" max="1000"/>
+  <input type="range" [class.disable]="isSorting" [(ngModel)]="size" (input)="generateArray()" min="5" max="25"/>
 
-  <div class="sort-button" (click)="selectionSort()">Selection Sort</div>
-  <div class="sort-button" (click)="sort()">Sort</div>
+  <div class="div-button" [class.disable]="isSorting" (click)="sort('selection-sort')">Selection Sort</div>
+  <div class="div-button" [class.disable]="isSorting" (click)="sort('bubble-sort')">Bubble Sort</div>
 
   <div
-    class="regenerate-button"
+    class="div-button"
     [class.disable]="isSorting"
     (click)="generateArray()"
-  >
+    >
     Regenerate
   </div>
   <div class="bar-container">
     <div
-      *ngFor="let item of myArray; let i = index"
+      *ngFor="let item of myArray"
       class="bar"
-      [style.background-color]="
-        isSwapping === i || isSwapping === i - 1
-          ? 'red'
-          : isComparing === i || isComparing === i - 1
-          ? 'green'
-          : isSorted != null && isSorted <= i
-          ? 'purple'
-          : 'blue'
-      "
-      [style.height.px]="item"
+      [style.background-color]="item.color"
+      [style.height.px]="item.value"
     >
-      {{ item }}
+      {{ item.value }}
     </div>
   </div>
 </div>

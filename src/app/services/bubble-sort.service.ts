@@ -1,44 +1,45 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ArrayWithColor } from '../interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BubbleSortService {
-  isComparingEvent = new EventEmitter();
-  isSwappingEvent = new EventEmitter();
-  isSortedEvent = new EventEmitter();
 
   constructor() { }
 
-   async sort(array: number[]): Promise<void> {
+   async sort(array: ArrayWithColor[], speed: number): Promise<void> {
     const n = array.length;
     let swapped: boolean;
+    speed = 1001-speed;
 
     for(let i = 0; i < n-1; i++){
       swapped = false;
 
       for(let j = 0; j < n-i-1; j++){
-        this.isComparingEvent.emit(j);
-        await this.delay(50);
+        array[j].color = 'green';
+        array[j+1].color = 'green';
+        await this.delay(speed);
         
-        if(array[j] > array[j+1]){
-          this.isSwappingEvent.emit(j);
-          await this.delay(50);
+        if(array[j].value > array[j+1].value){
+          array[j].color = 'red';
+          array[j+1].color = 'red';
+          await this.delay(speed);
           
-          const temp = array[j];
-          array[j] = array[j+1];
-          array[j+1] = temp;
+          const temp = array[j].value;
+          array[j].value = array[j+1].value;
+          array[j+1].value = temp;
           swapped = true;
           
-          await this.delay(50);
-          this.isSwappingEvent.emit(null);
+          await this.delay(speed);
         }
-        this.isComparingEvent.emit(null);
+        array[j].color = 'blue';
+        array[j+1].color = 'blue';
       }
-      this.isSortedEvent.emit(n-i-1);
+      array[n-i-1].color = 'purple';
       
       if(!swapped){
-        this.isSortedEvent.emit(0);
+        for(let k = 0; k < n; k++) array[k].color = 'purple';
         break;
       }
     }

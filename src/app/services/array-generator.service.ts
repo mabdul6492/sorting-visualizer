@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { ArrayWithColor } from '../interface';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ArrayGeneratorService {
-  private randomArray: number[] = [];
+  private randomArray: ArrayWithColor[] = [];
 
   constructor() {}
 
@@ -13,7 +14,7 @@ export class ArrayGeneratorService {
     this.randomArray = [];
     for(let i = 0; i < size; i++){
       const randomNumber = this.getRandomNumber();
-      this.randomArray.push(randomNumber);
+      this.randomArray.push({value: randomNumber, color: 'blue'});
     }
   }
   
@@ -21,7 +22,7 @@ export class ArrayGeneratorService {
     return (Math.floor(Math.random() * 200) + 10);
   }
 
-  public getRandomArray(size: number): number[] {
+  public getRandomArray(size: number): ArrayWithColor[] {
     this.generateRandomArray(size);
     return this.randomArray;
   }
