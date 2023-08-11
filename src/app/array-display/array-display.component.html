@@ -1,28 +1,66 @@
 <!-- array-display.component.html -->
-<div>
-  <h2>Array Display</h2>
+<div class="container-fluid bg-light m-0 p-3">
+  <h2 class="text-muted">Array Display</h2>
+  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <div class="col-md-1">
+      <label for="speedRange" class="form-label">Speed range</label>
+      <input
+        class="form-range"
+        id="speedRange"
+        type="range"
+        [(ngModel)]="speed"
+        min="50"
+        max="1000"
+      />
+    </div>
+    <div class="col-md-1">
+      <label for="arrayRange" class="form-label">Array Size</label>
+      <input
+        type="range"
+        id="arrayRange"
+        class="col form-range"
+        [class.disable]="isSorting"
+        [(ngModel)]="size"
+        (input)="generateArray()"
+        min="5"
+        max="100"
+      />
+    </div>
 
-  <input type="range" [(ngModel)]="speed" min="50" max="1000"/>
-  <input type="range" [class.disable]="isSorting" [(ngModel)]="size" (input)="generateArray()" min="5" max="25"/>
-
-  <div class="div-button" [class.disable]="isSorting" (click)="sort('selection-sort')">Selection Sort</div>
-  <div class="div-button" [class.disable]="isSorting" (click)="sort('bubble-sort')">Bubble Sort</div>
-
-  <div
-    class="div-button"
-    [class.disable]="isSorting"
-    (click)="generateArray()"
+    <div
+      class="col sort-button"
+      [class.disable]="isSorting"
+      (click)="sort('selection-sort')"
     >
-    Regenerate
+      Selection Sort
+    </div>
+    <div
+      class="col sort-button"
+      [class.disable]="isSorting"
+      (click)="sort('bubble-sort')"
+    >
+      Bubble Sort
+    </div>
+
+    <div class="d-inline p-2 bg-primary text-white">
+      <div
+        class="col div-button"
+        [class.disable]="isSorting"
+        (click)="generateArray()"
+      >
+        Regenerate
+      </div>
+    </div>
   </div>
+</div>
+
+<div class="container align-items-center">
   <div class="bar-container">
     <div
       *ngFor="let item of myArray"
       class="bar"
       [style.background-color]="item.color"
       [style.height.px]="item.value"
-    >
-      {{ item.value }}
-    </div>
+    ></div>
   </div>
 </div>

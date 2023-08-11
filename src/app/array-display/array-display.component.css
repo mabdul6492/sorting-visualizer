@@ -6,12 +6,16 @@
     color: white;
     font-size: 14px;
     text-align: center;
-    width: 20px;
+    width: -webkit-fill-available;
+    max-width: 10%;
     float: 1;
+    border-bottom-right-radius: .5rem!important;
+    border-bottom-left-radius: .5rem!important;
 }
 
 .bar-container {
     display: flex;
+    justify-content: center;
 }
 
 .disable {
@@ -20,7 +24,19 @@
 
 }
 
-.div-button {
+.sort-button {
     cursor: pointer;
     user-select: none;
 }
+
+
+.div-button {
+    justify-content: flex-end;
+    cursor: pointer;
+    user-select: none;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row-reverse;
+  }
