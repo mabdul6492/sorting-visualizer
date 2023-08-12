@@ -9,7 +9,8 @@
         id="speedRange"
         type="range"
         [(ngModel)]="speed"
-        min="50"
+        (input)="changeSpeed()"
+        min="1"
         max="1000"
       />
     </div>
@@ -30,27 +31,25 @@
     <div
       class="col sort-button"
       [class.disable]="isSorting"
-      (click)="sort('selection-sort')"
-    >
-      Selection Sort
-    </div>
-    <div
-      class="col sort-button"
-      [class.disable]="isSorting"
-      (click)="sort('bubble-sort')"
-    >
-      Bubble Sort
-    </div>
-
-    <div class="d-inline p-2 bg-primary text-white">
-      <div
-        class="col div-button"
-        [class.disable]="isSorting"
-        (click)="generateArray()"
       >
+      <div (click)="sort('selection-sort')">
+        Selection Sort
+      </div>
+      <div (click)="sort('bubble-sort')">
+        Bubble Sort
+      </div>
+      <div (click)="sort('merge-sort')">
+        Merge Sort
+      </div>
+      <div (click)="sort('heap-sort')">
+        Heap Sort
+      </div>
+
+      <div (click)="generateArray()" >
         Regenerate
       </div>
     </div>
+    <div (click)="endSort()"> End Sort </div>
   </div>
 </div>
 
@@ -61,6 +60,8 @@
       class="bar"
       [style.background-color]="item.color"
       [style.height.px]="item.value"
-    ></div>
+    >
+    <div *ngIf="size <= 40"> {{item.value}} </div>
+  </div>
   </div>
 </div>

@@ -1,51 +1,66 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { ArrayWithColor } from '../interface';
+import { delay } from './delay.utility';
+import { ServiceNotifierService } from './service-notifier.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SelectionSortService {
   
-  constructor() {}
+  speed = 500;
+  isEnd = false;
 
-  async sort(array: ArrayWithColor[], speed: number): Promise<void> {
+  constructor( private serviceNotifierService: ServiceNotifierService) {
+    serviceNotifierService.speedValue$.subscribe((value) => {this.speed = value});
+    serviceNotifierService.isEndValue$.subscribe((value) => {this.isEnd = value});
+  }
+
+  async sort(array: ArrayWithColor[], pause: () => Promise<void>): Promise<void> {
     const n = array.length;
-    speed = 1001-speed;
 
     for (let i = 0; i < n - 1; i++) {
       let minIndex = i;
 
       for (let j = i + 1; j < n; j++) {
-        array[j].color = "green";
-        array[minIndex].color = "green";
-        await this.delay(speed);
-
-        array[j].color = "blue";
-        array[minIndex].color = "blue";
+        if(!this.isEnd){
+          array[j].color = "green";
+          array[minIndex].color = "green";
+          await delay(this.speed);
+          await pause();
+          array[j].color = "blue";
+          array[minIndex].color = "blue";
+        }
+        
         if (array[j].value < array[minIndex].value) {
           minIndex = j;
         }
       }
       
       if (minIndex != i) {
-        array[i].color = "red";
-        array[minIndex].color = "red";
-        await this.delay(speed);
-
+        if(!this.isEnd){
+          array[i].color = "red";
+          array[minIndex].color = "red";
+          await delay(this.speed);
+          await pause();
+        }
+        
         const temp = array[i].value;
         array[i].value = array[minIndex].value;
         array[minIndex].value = temp;
-        await this.delay(speed);
+        if(!this.isEnd){
+          await delay(this.speed);
+          await pause();
+        }
       }
-
-      array[minIndex].color = "blue";
+      
+      if(!this.isEnd) array[minIndex].color = "blue";
       array[i].color = "purple";
-      await this.delay(speed);
+      if(!this.isEnd){
+        await delay(this.speed);
+        await pause();
+      }
     }
     array[n-1].color = "purple";
-  }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
