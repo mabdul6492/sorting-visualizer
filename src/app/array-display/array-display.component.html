@@ -44,10 +44,13 @@
       <div (click)="sort('heap-sort')">
         Heap Sort
       </div>
-
-      <div (click)="generateArray()" >
-        Regenerate
+      <div (click)="sort('quick-sort')">
+        Quick Sort
       </div>
+    </div>
+    <div class="col sort-button" 
+    [class.disable]="isSorting" (click)="generateArray()" >
+      Regenerate
     </div>
     <div (click)="endSort()"> End Sort </div>
   </div>

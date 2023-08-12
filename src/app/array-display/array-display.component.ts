@@ -1,3 +1,4 @@
+import { QuickSortService } from './../services/quick-sort.service';
 import { HeapSortService } from './../services/heap-sort.service';
 import { ServiceNotifierService } from './../services/service-notifier.service';
 import { MergeSortService } from './../services/merge-sort.service';
@@ -38,7 +39,8 @@ export class ArrayDisplayComponent {
     private bubbleSortService: BubbleSortService,
     private selectionSortService: SelectionSortService,
     private mergeSortService: MergeSortService,
-    private heapSortService: HeapSortService
+    private heapSortService: HeapSortService,
+    private quickSortService: QuickSortService
   ) {
     this.generateArray();
   }
@@ -95,6 +97,9 @@ export class ArrayDisplayComponent {
         break;
       case "heap-sort":
         algorithm = this.heapSortService;
+        break;
+      case "quick-sort":
+        algorithm = this.quickSortService;
         break;
     }
 
