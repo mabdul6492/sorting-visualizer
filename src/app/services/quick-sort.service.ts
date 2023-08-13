@@ -1,7 +1,7 @@
 import { ServiceNotifierService } from './service-notifier.service';
 import { Injectable } from '@angular/core';
 import { ArrayWithColor } from '../interface';
-import { delay } from './delay.utility';
+import { delay } from './utilityFunctions';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +9,14 @@ import { delay } from './delay.utility';
 export class QuickSortService {
   pause = async () => {};
   speed = 500;
+  isEnd = false;
 
   constructor(private serviceNotifierService: ServiceNotifierService) {
     serviceNotifierService.speedValue$.subscribe(
       (value) => (this.speed = value)
+    );
+    serviceNotifierService.isEndValue$.subscribe(
+      (value) => (this.isEnd = value)
     );
   }
 
@@ -21,7 +25,7 @@ export class QuickSortService {
     await this.quickSort(arr, 0, arr.length - 1);
   }
 
-  async quickSort(
+  private async quickSort(
     arr: ArrayWithColor[],
     low: number,
     high: number
@@ -38,16 +42,50 @@ export class QuickSortService {
     }
   }
 
-  private async partition( arr: ArrayWithColor[], low: number, high: number): Promise<number> {
+  private async partition(
+    arr: ArrayWithColor[],
+    low: number,
+    high: number
+  ): Promise<number> {
     const pivot = arr[high].value;
-
-    arr[high].color = 'yellow';
-    await delay(this.speed);
-    await this.pause();
-    
     let i = low;
-    for (let j = low; j < high; j++) {
-      if(arr[i] != arr[j]){
+    let j = high - 1;
+    if (!this.isEnd) {
+      arr[high].color = 'yellow';
+      await delay(this.speed);
+      await this.pause();
+    }
+
+    while (true) {
+      while (arr[i].value < pivot) {
+        if (!this.isEnd) {
+          arr[i].color = 'green';
+          arr[j].color = 'green';
+          await delay(this.speed);
+          await this.pause();
+          arr[i].color = 'blue';
+          arr[j].color = 'blue';
+        }
+        i++;
+      }
+      while (j >= low && arr[j].value > pivot) {
+        if (!this.isEnd) {
+          arr[i].color = 'green';
+          arr[j].color = 'green';
+          await delay(this.speed);
+          await this.pause();
+          arr[i].color = 'blue';
+          arr[j].color = 'blue';
+        }
+        j--;
+      }
+
+      if (i >= j) {
+        await this.swap(arr, i, high);
+        return i;
+      }
+
+      if (!this.isEnd) {
         arr[i].color = 'green';
         arr[j].color = 'green';
         await delay(this.speed);
@@ -55,31 +93,35 @@ export class QuickSortService {
         arr[i].color = 'blue';
         arr[j].color = 'blue';
       }
-
-      if (arr[j].value < pivot && arr[i] != arr[j]) {
-        await this.swap(arr, i, j);
-        i++;
-      }
+      await this.swap(arr, i, j);
+      i++;
+      j--;
     }
-    
-    await this.swap(arr, i, high);
-    arr[high].color = 'blue';
-    return i;
   }
 
-  private async swap( arr: ArrayWithColor[], i: number, j: number): Promise<void> {
-    arr[i].color = 'red';
-    arr[j].color = 'red';
-    await delay(this.speed);
-    await this.pause();
+  private async swap(
+    arr: ArrayWithColor[],
+    i: number,
+    j: number
+  ): Promise<void> {
+    if (i == j) return;
+
+    if (!this.isEnd) {
+      arr[i].color = 'red';
+      arr[j].color = 'red';
+      await delay(this.speed);
+      await this.pause();
+    }
 
     const temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
 
-    await delay(this.speed);
-    await this.pause();
-    arr[i].color = 'blue';
-    arr[j].color = 'blue';
+    if (!this.isEnd) {
+      await delay(this.speed);
+      await this.pause();
+      arr[i].color = 'blue';
+      arr[j].color = 'blue';
+    }
   }
 }

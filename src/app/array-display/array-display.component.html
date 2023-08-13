@@ -28,31 +28,26 @@
       />
     </div>
 
+    <div class="col sort-button" [class.disable]="isSorting">
+      <div (click)="sort('selection-sort')">Selection Sort</div>
+      <div (click)="sort('bubble-sort')">Bubble Sort</div>
+      <div (click)="sort('merge-sort')">Merge Sort</div>
+      <div (click)="sort('heap-sort')">Heap Sort</div>
+      <div (click)="sort('quick-sort')">Quick Sort</div>
+      <div (click)="sort('insertion-sort')">Insertion Sort</div>
+    </div>
     <div
       class="col sort-button"
       [class.disable]="isSorting"
-      >
-      <div (click)="sort('selection-sort')">
-        Selection Sort
-      </div>
-      <div (click)="sort('bubble-sort')">
-        Bubble Sort
-      </div>
-      <div (click)="sort('merge-sort')">
-        Merge Sort
-      </div>
-      <div (click)="sort('heap-sort')">
-        Heap Sort
-      </div>
-      <div (click)="sort('quick-sort')">
-        Quick Sort
-      </div>
-    </div>
-    <div class="col sort-button" 
-    [class.disable]="isSorting" (click)="generateArray()" >
+      (click)="generateArray()"
+    >
       Regenerate
     </div>
-    <div (click)="endSort()"> End Sort </div>
+    <div (click)="endSort()">End Sort</div>
+    <div>
+      <input [(ngModel)]="userArray" placeholder="Enter your Array" />
+      <div (click)="userInputArray()">Go.</div>
+    </div>
   </div>
 </div>
 
@@ -64,7 +59,7 @@
       [style.background-color]="item.color"
       [style.height.px]="item.value"
     >
-    <div *ngIf="size <= 40"> {{item.value}} </div>
-  </div>
+      <div *ngIf="size <= 40">{{ item.value }}</div>
+    </div>
   </div>
 </div>

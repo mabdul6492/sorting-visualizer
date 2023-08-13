@@ -1,22 +1,28 @@
 import { ServiceNotifierService } from './service-notifier.service';
 import { Injectable } from '@angular/core';
 import { ArrayWithColor } from '../interface';
-import { delay } from './delay.utility';
+import { delay } from './utilityFunctions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BubbleSortService {
-
   speed = 500;
   isEnd = false;
 
-  constructor( private serviceNotifierService: ServiceNotifierService) {
-    serviceNotifierService.speedValue$.subscribe((value) => {this.speed = value});
-    serviceNotifierService.isEndValue$.subscribe((value) => {this.isEnd = value});
+  constructor(private serviceNotifierService: ServiceNotifierService) {
+    serviceNotifierService.speedValue$.subscribe((value) => {
+      this.speed = value;
+    });
+    serviceNotifierService.isEndValue$.subscribe((value) => {
+      this.isEnd = value;
+    });
   }
 
-  async sort(array: ArrayWithColor[], pause: () => Promise<void>): Promise<void> {
+  async sort(
+    array: ArrayWithColor[],
+    pause: () => Promise<void>
+  ): Promise<void> {
     const n = array.length;
     let swapped: boolean;
 
@@ -24,33 +30,33 @@ export class BubbleSortService {
       swapped = false;
 
       for (let j = 0; j < n - i - 1; j++) {
-        if(!this.isEnd){
+        if (!this.isEnd) {
           array[j].color = 'green';
           array[j + 1].color = 'green';
           await delay(this.speed);
           await pause();
         }
-        
+
         if (array[j].value > array[j + 1].value) {
-          if(!this.isEnd){
+          if (!this.isEnd) {
             array[j].color = 'red';
             array[j + 1].color = 'red';
             await delay(this.speed);
             await pause();
           }
-          
+
           const temp = array[j].value;
           array[j].value = array[j + 1].value;
           array[j + 1].value = temp;
           swapped = true;
-          
-          if(!this.isEnd){
+
+          if (!this.isEnd) {
             await delay(this.speed);
             await pause();
           }
         }
 
-        if(!this.isEnd){
+        if (!this.isEnd) {
           array[j].color = 'blue';
           array[j + 1].color = 'blue';
         }
