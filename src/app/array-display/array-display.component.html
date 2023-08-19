@@ -1,7 +1,11 @@
 <!-- array-display.component.html -->
 <div class="container-fluid bg-light m-0 p-3">
-  <h2 class="text-muted">Array Display</h2>
-  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+  <h2 class="text-muted text-align-center">Array Display</h2>
+
+  <div
+    style="width: -webkit-fill-available"
+    class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3"
+  >
     <div class="col-md-1">
       <label for="speedRange" class="form-label">Speed range</label>
       <input
@@ -28,14 +32,74 @@
       />
     </div>
 
-    <div class="col sort-button" [class.disable]="isSorting">
-      <div (click)="sort('selection-sort')">Selection Sort</div>
-      <div (click)="sort('bubble-sort')">Bubble Sort</div>
-      <div (click)="sort('merge-sort')">Merge Sort</div>
-      <div (click)="sort('heap-sort')">Heap Sort</div>
-      <div (click)="sort('quick-sort')">Quick Sort</div>
-      <div (click)="sort('insertion-sort')">Insertion Sort</div>
+    <div class="dropdown" [class.disable]="isSorting">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenu2"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {{ algoName | titlecase }}
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            (click)="sort('bubble sort')"
+          >
+            Bubble Sort
+          </button>
+        </li>
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            (click)="sort('heap sort')"
+          >
+            Heap Sort
+          </button>
+        </li>
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            (click)="sort('insertion sort')"
+          >
+            Insertion Sort
+          </button>
+        </li>
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            (click)="sort('merge sort')"
+          >
+            Merge Sort
+          </button>
+        </li>
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            (click)="sort('quick sort')"
+          >
+            Quick Sort
+          </button>
+        </li>
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            (click)="sort('selection sort')"
+          >
+            Selection Sort
+          </button>
+        </li>
+      </ul>
     </div>
+
     <div
       class="col sort-button"
       [class.disable]="isSorting"
@@ -43,23 +107,70 @@
     >
       Regenerate
     </div>
-    <div (click)="endSort()">End Sort</div>
-    <div>
-      <input [(ngModel)]="userArray" placeholder="Enter your Array" />
-      <div (click)="userInputArray()">Go.</div>
+
+    <div class="col sort-button" (click)="endSort()">End Sort</div>
+
+    <div class="col">
+      <div class="input-group w-auto">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="userArray"
+          placeholder="Enter your Array"
+          id="inputGroupFile04"
+          aria-describedby="inputGroupFileAddon04"
+          aria-label="Upload"
+        />
+        <button
+          class="btn btn-outline-success"
+          (click)="userInputArray()"
+          type="button"
+          id="inputGroupFileAddon04"
+        >
+          Go..
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="container align-items-center">
+<div class="container">
   <div class="bar-container">
     <div
       *ngFor="let item of myArray"
       class="bar"
       [style.background-color]="item.color"
       [style.height.px]="item.value"
+      [title]="item.value"
     >
       <div *ngIf="size <= 40">{{ item.value }}</div>
+    </div>
+  </div>
+
+  <div class="position-fixed bottom-0 end-0 p-3">
+    <button
+      class="btn btn-primary chatbot-button"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#chatInterface"
+      aria-expanded="false"
+      aria-controls="chatInterface"
+    >
+      Hint
+    </button>
+  </div>
+
+  <div class="collapse" id="chatInterface">
+    <div class="card card-body">
+      <!-- Your chat interface content here -->
+      <p>
+        Press key <mark class="bg-danger">Space</mark> to Pause and Resume the
+        visualization.
+      </p>
+      <p>
+        Press key <mark class="bg-warning">N</mark> to go to next visualization
+        steps.
+      </p>
     </div>
   </div>
 </div>

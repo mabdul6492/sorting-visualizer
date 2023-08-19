@@ -28,6 +28,7 @@ export class ArrayDisplayComponent {
   public isSorting = false;
   private isEnd = false;
   private isPause = false;
+  public algoName: string = 'Algorithm';
   public userArray = '10, 20, 30, 40, 50';
 
   private pause = async () => {
@@ -84,6 +85,7 @@ export class ArrayDisplayComponent {
   }
 
   async sort(algo: string): Promise<void> {
+    this.algoName = algo;
     this.isSorting = true;
     this.isPause = false;
     for (let i = 0; i < this.myArray.length; i++)
@@ -91,22 +93,22 @@ export class ArrayDisplayComponent {
 
     let algorithm;
     switch (algo) {
-      case 'bubble-sort':
+      case 'bubble sort':
         algorithm = this.bubbleSortService;
         break;
-      case 'selection-sort':
+      case 'selection sort':
         algorithm = this.selectionSortService;
         break;
-      case 'merge-sort':
+      case 'merge sort':
         algorithm = this.mergeSortService;
         break;
-      case 'heap-sort':
+      case 'heap sort':
         algorithm = this.heapSortService;
         break;
-      case 'quick-sort':
+      case 'quick sort':
         algorithm = this.quickSortService;
         break;
-      case 'insertion-sort':
+      case 'insertion sort':
         algorithm = this.insertionSortService;
         break;
     }
