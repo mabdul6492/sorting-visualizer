@@ -51,6 +51,7 @@ export class ArrayDisplayComponent {
 
   public userInputArray(): void {
     this.myArray = generateUserArray(this.userArray);
+    this.size = this.myArray.length;
   }
 
   public generateArray(): void {
